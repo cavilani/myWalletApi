@@ -28,6 +28,7 @@ class getTransactionsWalletTest extends TestCase
 
         $this->wallet = factory(Wallet::class)
             ->create([
+                'user_id' => $this->user->id,
                 'name' => 'My First Wallet',
                 'currency' => 'GBP'
                 ]);
@@ -64,15 +65,7 @@ class getTransactionsWalletTest extends TestCase
         //Method to test API endpoint without authentication
         Passport::actingAs($this->user,['getTransactionsWallet']);
  
-        $data = [        
-            'walletId'         => $this->wallet->id,
-            'numTransactions'  => '',
-            'numPerPage'       => '',
-            'pageNum'          => ''
-          ];
-
-        $response = $this->json('GET', '/api/getTransactionsWallet', $data);
-
+        $response = $this->json('GET', '/api/getTransactionsWallet/'.$this->wallet->id);
 
         $expectedResponse = [
             'message'       => 'Success',

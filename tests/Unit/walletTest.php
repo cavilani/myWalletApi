@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 use App\Models\Wallet;
 use App\Models\Transaction;
+use App\Models\User;
 
 
 class walletTest extends TestCase
@@ -14,14 +15,16 @@ class walletTest extends TestCase
     use DatabaseMigrations;
 
 
-    protected function setUp()
-    {
+    protected function setUp() {
+
         parent::setUp();
 
         //Creating some mock objects to test
+        $this->user = factory(User::class)->create(['email' => 'karolni90@gmail.com']);
 
         $this->wallet = factory(Wallet::class)
             ->create([
+                'user_id' => $this->user->id,
                 'name' => 'My First Wallet',
                 'currency' => 'GBP'
                 ]);
@@ -39,15 +42,13 @@ class walletTest extends TestCase
         foreach ($this->transactionsArray as $transaction) {
             
             $this->transactionsObjects[] = factory(Transaction::class)->create($transaction);
-        }        
+        }       
 
-        
     }
 
 
     
-    public function testGetTransactions()
-    {   
+    public function testGetTransactions() {   
 
         $transactions = $this->wallet->getTransactions($this->wallet->id);
 
@@ -57,7 +58,6 @@ class walletTest extends TestCase
         $this->assertEquals($transactions[0]->description,$this->transactionsObjects[0]->description);
         $this->assertEquals($transactions[0]->amount,$this->transactionsObjects[0]->amount);
         $this->assertEquals($transactions[0]->date,$this->transactionsObjects[0]->date);
-
 
     }
 
