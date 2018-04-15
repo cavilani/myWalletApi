@@ -14,4 +14,4 @@ use App\Http\Controllers\TransactionsController;
 |
 */
 
-Route::post('getTransactionsWallet', 'WalletController@getTransactionsApi')->middleware('auth:api');
+Route::post('getTransactionsWallet', 'WalletController@getTransactions')->middleware('auth:api');

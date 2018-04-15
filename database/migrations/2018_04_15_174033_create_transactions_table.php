@@ -14,11 +14,11 @@ class CreateTransactionsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            
-            $table->increments('id');
-            $table->integer('walletId')->unsigned();
 
-            $table->foreign('walletId')
+            $table->increments('id');
+            $table->integer('wallet_id')->unsigned();
+
+            $table->foreign('wallet_id')
                 ->references('id')
                 ->on('wallets');
 

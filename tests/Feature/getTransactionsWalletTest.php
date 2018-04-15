@@ -34,13 +34,13 @@ class getTransactionsWalletTest extends TestCase
 
         $this->transactionsArray =  [
                 [
-                    'walletId'      => $this->wallet->id,
+                    'wallet_id'      => $this->wallet->id,
                     'description'   => 'Fund transfer',
                     'amount'        => 30,
                     'date'          => '2018-03-06 11:15:00'
                 ],
                 [
-                    'walletId'      => $this->wallet->id,
+                    'wallet_id'      => $this->wallet->id,
                     'description'   => 'Top up',
                     'amount'        => 50,
                     'date'          => '2018-03-07 11:15:00'
