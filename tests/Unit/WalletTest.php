@@ -44,6 +44,7 @@ class walletTest extends TestCase
             $this->transactionsObjects[] = factory(Transaction::class)->create($transaction);
         }       
 
+
     }
 
 
