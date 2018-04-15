@@ -13,3 +13,5 @@ use App\Http\Controllers\TransactionsController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('getTransactionsWallet', 'WalletController@getTransactionsApi')->middleware('auth:api');

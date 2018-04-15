@@ -16,45 +16,56 @@ use App;
 
 class getTransactionsWalletTest extends TestCase
 {    
-    use DatabaseMigrations;	
-    
-    public function testGetTransactionsWallet()
-    {
-        //Creating some mock objects to test
-        $user = factory(User::class)->create(['email' => 'karolni90@gmail.com']);
+    use DatabaseMigrations;
 
-        $wallet = factory(Wallet::class)
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        //Creating some mock objects to test
+        $this->user = factory(User::class)->create(['email' => 'karolni90@gmail.com']);
+
+        $this->wallet = factory(Wallet::class)
             ->create([
                 'name' => 'My First Wallet',
                 'currency' => 'GBP'
                 ]);
 
-        $transactionsTest =  [
+        $this->transactionsArray =  [
                 [
-                'walletId'      => $wallet->id,
-                'description'   => 'Fund transfer',
-                'amount'        => 30,
-                'date'          => '2018-03-06 11:15:00'
+                    'walletId'      => $this->wallet->id,
+                    'description'   => 'Fund transfer',
+                    'amount'        => 30,
+                    'date'          => '2018-03-06 11:15:00'
                 ],
                 [
-                'walletId'      => $wallet->id,
-                'description'   => 'Top up',
-                'amount'        => 50,
-                'date'          => '2018-03-07 11:15:00'
+                    'walletId'      => $this->wallet->id,
+                    'description'   => 'Top up',
+                    'amount'        => 50,
+                    'date'          => '2018-03-07 11:15:00'
                 ]
 
             ];
 
-        foreach ($transactionsTest as $transaction) {
+        foreach ($this->transactionsArray as $transaction) {
             
-            factory(Transaction::class)->create($transaction);
+            $this->transactionsObjects[] = factory(Transaction::class)->create($transaction);
         }        
 
+        
+    }
+
+
+    
+    public function testGetTransactionsWalletApi()
+    {   
+
         //Method to test API endpoint without authentication
-        Passport::actingAs($user,['getTransactionsWallet']);
+        Passport::actingAs($this->user,['getTransactionsWallet']);
  
         $data = [        
-            'walletId'         => $wallet->id,
+            'walletId'         => $this->wallet->id,
             'numTransactions'  => '',
             'numPerPage'       => '',
             'pageNum'          => ''
@@ -65,7 +76,7 @@ class getTransactionsWalletTest extends TestCase
 
         $expectedResponse = [
             'message'       => 'Success',
-            'transactions'  => $transactionsTest
+            'transactions'  => $this->transactionsArray
             ];
 
         $response
