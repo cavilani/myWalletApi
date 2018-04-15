@@ -10,10 +10,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 
 use App\Models\User;
+use App\Models\Wallet;
 use App;
 
 class getTransactionsWalletTest extends TestCase
-{
+{    
+    use DatabaseMigrations;	
     
     public function testGetTransactionsWallet()
     {
