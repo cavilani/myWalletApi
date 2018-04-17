@@ -7,6 +7,13 @@ use App\Models\Wallet;
 
 class WalletController extends ApiController
 {
+	public function __construct()
+	{
+		//Using the middleware auth Passport, a filter for users not authenticated
+	    $this->middleware('auth:api');
+	}
+
+
     public function getTransactions($walletId) {
 
 		if(!Wallet::checkIfExists($walletId)) {
